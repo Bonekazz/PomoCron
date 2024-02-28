@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PomoCron</title>
+    <link rel="stylesheet" href="src/Styles/index.css">
+    <script type="module" defer src="/src/main.ts"></script>
+  </head>
+  <body>
+    <h1>PomoCron</h1>
+    <div class="w-[100%] flex justify-center">
+      <div class="flex flex-col items-center gap-5 mt-10 p-10 border w-fit rounded-lg">
+        <div class="timer-wrapper text-lg flex gap-[4.5px]">
+          <span id="hours"></span>
+          <span>:</span>
+          <span id="minutes"></span>
+          <span>:</span>
+          <span id="seconds"></span>
+        </div>
+        <div class="flex gap-4">
+          <span id="start" class="timer-btn">start</span>
+          <span id="pause" class="timer-btn">pause</span>
+          <span id="reset" class="timer-btn">reset</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
