@@ -7,4 +7,11 @@
     .timer-btn {
         @apply px-2 border rounded-md border-black hover:cursor-pointer hover:bg-black hover:text-white hover:border-white hover:scale-110 transition-all ease-out active:scale-95;
     }
+
+    .focus-type {
+        @apply bg-black border border-white text-white;
+    }
+    .break-type {
+        @apply bg-white border border-black/70 text-black;
+    }
 }

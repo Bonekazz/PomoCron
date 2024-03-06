@@ -1,28 +1,34 @@
 // Cronos is the engine, the proxie between the user and the time blocks
 
 import States from "../Enums/States";
+import Demeter from "./Demeter";
 import TimeBlock from "./TimeBlock";
 
 // funcionalities:
-// --- play the currentTimerBlock
-// --- stop the currentTimerBlock
-// --- reset the currentTimerBlock
+// --- play the currentTimeBlock
+// --- stop the currentTimeBlock
+// --- reset the currentTimeBlock
+
+// --- play the next timeBlock
 
 // properties:
+// --- the current Demeter
 // --- the current TimeBlock
 
 
 export default class Cronos
 {
-    private _curBlock: TimeBlock | undefined;
-    private _interval: number | undefined;
+    public _curDemeter: Demeter | undefined;
+    public _curBlock: TimeBlock | undefined;
+    public _interval: number | undefined;
 
     constructor()
     {
         this.InitRenderer();
     }
 
-    playCurrent() {
+    playCurrent()
+    {
         if (this._curBlock?.getState() === States.RUNNING)
         {
             console.log("already running");
@@ -30,7 +36,7 @@ export default class Cronos
         };
         console.log("start");
         this._curBlock?.setState(States.RUNNING);
-        this.renderCurrent();
+        this.renderCurrentBlock();
         this._interval = setInterval(() =>
         {
             if (this._curBlock?.getState() === States.PAUSED || this._curBlock?.getState() === States.FINISHED)
@@ -40,11 +46,12 @@ export default class Cronos
             }
             
             this._curBlock?.burn();
-            this.renderCurrent();
+            this.renderCurrentBlock();
         }, 1000);
         
     }
-    stopCurrent() {
+    stopCurrent()
+    {
         if (this._curBlock?.getState() === States.PAUSED)
         {
             console.log("already paused");
@@ -53,9 +60,10 @@ export default class Cronos
         this._curBlock?.setState(States.PAUSED);
         clearInterval(this._interval);
         console.log("Paused")
-        this.renderCurrent();
+        this.renderCurrentBlock();
     }
-    resetCurrent() {
+    resetCurrent()
+    {
         if (this._curBlock?.getState() === States.RUNNING)
         {
             console.log("pause before reset");
@@ -63,21 +71,34 @@ export default class Cronos
         };
         this._curBlock?.setCurrentTime(this._curBlock.getSettings());
         console.log("Reset");
-        this.renderCurrent();
+        this.renderCurrentBlock();
     }
 
-    setCurrent(timeblock: TimeBlock) {
+    setCurrentBlock(timeblock: TimeBlock)
+    {
         this._curBlock = timeblock;
-        this.renderCurrent();
+        this.renderCurrentBlock();
     }
-    getCurrent() {
+    getCurrentBlock()
+    {
         return this._curBlock;
     }
 
-    InitRenderer() {
+    setCurrentDem(deme: Demeter)
+    {
+        this._curDemeter = deme;
+    }
+
+    InitRenderer()
+    {
+        if (this._curDemeter === undefined) return;
+
         const startBtn = document.querySelector("#start");
         const pauseBtn = document.querySelector("#pause");
         const resetBtn = document.querySelector("#reset");
+
+        const demTitle = document.querySelector('dem-title') as HTMLElement;
+        demTitle.innerHTML = this._curDemeter.getTitle() as string;    
 
         startBtn?.addEventListener('click', () =>
         {
@@ -93,7 +114,8 @@ export default class Cronos
         });
     }
 
-    renderCurrent() {
+    renderCurrentBlock()
+    {
         if (this._curBlock === undefined) return;
         const wrapper = document.querySelector(".timer-wrapper") as HTMLElement;
         const Hel = document.querySelector("#hours") as HTMLElement;

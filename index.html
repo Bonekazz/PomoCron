@@ -9,7 +9,7 @@
   </head>
   <body>
     <h1>PomoCron</h1>
-    <div class="w-[100%] flex justify-center">
+    <div class="w-[100%] flex flex-col items-center justify-center gap-8">
       <div class="flex flex-col items-center gap-5 mt-10 p-10 border w-fit rounded-lg">
         <div class="timer-wrapper text-lg flex gap-[4.5px]">
           <span id="hours"></span>
@@ -24,6 +24,32 @@
           <span id="reset" class="timer-btn">reset</span>
         </div>
       </div>
+
+      <div class="border p-10 rounded-lg w-fit flex flex-col gap-5">
+        <h1 class="dem-title">Demeter tittle</h1>
+        <div class="dem-pile flex flex-col gap-2">
+          <div class="flex gap-3 focus-type rounded-lg p-2 px-5">
+            <p>00:00:00</p>
+            <p> - </p>
+            <p>type</p>
+          </div>
+          <div class="flex gap-3 break-type rounded-lg p-2 px-5">
+            <p>00:00:00</p>
+            <p> - </p>
+            <p>type</p>
+          </div>
+          <div class="flex gap-3 focus-type rounded-lg p-2 px-5">
+            <p>00:00:00</p>
+            <p> - </p>
+            <p>type</p>
+          </div>
+        </div>
+        <div class="flex border border-black rounded-lg p-2 px-5 justify-center opacity-45">
+          <p> add a block</p>
+          <p class="ml-10">+</p>
+        </div>
+      </div>
+      
     </div>
   </body>
 </html>

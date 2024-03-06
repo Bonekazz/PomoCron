@@ -7,7 +7,7 @@ import States from "../Enums/States.js";
 
 export default class TimeBlock {
     private _settings;
-    private _currentTime: ITime;
+    public _currentTime: ITime;
     private _state: States;
 
     constructor(sett: ITime) {
