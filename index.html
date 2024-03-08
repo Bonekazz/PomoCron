@@ -8,48 +8,17 @@
     <script type="module" defer src="/src/main.ts"></script>
   </head>
   <body>
-    <h1>PomoCron</h1>
-    <div class="w-[100%] flex flex-col items-center justify-center gap-8">
-      <div class="flex flex-col items-center gap-5 mt-10 p-10 border w-fit rounded-lg">
-        <div class="timer-wrapper text-lg flex gap-[4.5px]">
-          <span id="hours"></span>
-          <span>:</span>
-          <span id="minutes"></span>
-          <span>:</span>
-          <span id="seconds"></span>
-        </div>
-        <div class="flex gap-4">
-          <span id="start" class="timer-btn">start</span>
-          <span id="pause" class="timer-btn">pause</span>
-          <span id="reset" class="timer-btn">reset</span>
-        </div>
-      </div>
-
-      <div class="border p-10 rounded-lg w-fit flex flex-col gap-5">
-        <h1 class="dem-title">Demeter tittle</h1>
-        <div class="dem-pile flex flex-col gap-2">
-          <div class="flex gap-3 focus-type rounded-lg p-2 px-5">
-            <p>00:00:00</p>
-            <p> - </p>
-            <p>type</p>
-          </div>
-          <div class="flex gap-3 break-type rounded-lg p-2 px-5">
-            <p>00:00:00</p>
-            <p> - </p>
-            <p>type</p>
-          </div>
-          <div class="flex gap-3 focus-type rounded-lg p-2 px-5">
-            <p>00:00:00</p>
-            <p> - </p>
-            <p>type</p>
-          </div>
-        </div>
-        <div class="flex border border-black rounded-lg p-2 px-5 justify-center opacity-45">
-          <p> add a block</p>
-          <p class="ml-10">+</p>
-        </div>
-      </div>
-      
+    <div>
+      <span id="time-element" class="opacity-50"></span>
+    </div>
+    <div>
+      <button id="time-btn" class="border-2 border-black p-2 rounded-lg opacity-50">Start</button>
+      <button id="add-demeter" class="border-2 border-black">add random demeter</button>
+      <button id="remove-demeter" class="border-2 border-black">remover demeter</button>
+    </div>
+    <div>
+      <ul id="dem-list">
+      </ul>
     </div>
   </body>
 </html>

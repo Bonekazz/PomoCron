@@ -1,6 +1,12 @@
-import Cronos from "./Classes/Cronos.js";
-import TimeBlock from "./Classes/TimeBlock.js";
+import CronRenderer from "./Classes/CronRenderer";
+import Cronos from "./Classes/Cronos";
+import Demeter from "./Classes/Demeter";
 
-const sett = { hours: 0, minutes: 0, seconds: 5, miliseconds: 1000 };
-const cron = new Cronos();
-cron.setCurrentBlock(new TimeBlock(sett));
+const renderer = new CronRenderer();      // creayed by the application
+const cronos = new Cronos(renderer);     // creayed by the application
+const demeter1 = new Demeter();          // created by the user
+
+// SIMULATION OF SETTING A DEMETER
+renderer.setCronos(cronos);
+
+cronos.setDemeter(demeter1);

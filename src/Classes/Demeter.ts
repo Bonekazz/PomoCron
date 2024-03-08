@@ -1,39 +1,38 @@
-// Demeter will be a stack of timeBlocks
-// functionalities:
-// --- add a timeblock
-// --- delete a timeblock
-// --- edit a timeblock
+// A TimeBlock Buffer
 
-import ITime from "../Interfaces/ITime";
+import { BlockType } from "../Types/BlockTypes";
+import TimeBlock from "./TimeBlock";
 
-interface PileObject {
-    id: string;
-    index: number;
-    object: ITime;
-}
+// features:
+// -- retornar o proximo bloco
+// -- trocar a ordem dos blocos
 
-export default class Demeter
-{
+export default class Demeter {
 
-    private _pile: PileObject[] | undefined;
-    private _tittle: string | undefined;
+    private _blockList: TimeBlock[]; // array of blocks
 
-    constructor()
-    { }
-
-    add(id: string)
-    { }
-
-    remove(id: string)
-    { }
-
-    edit(id: string)
-    { }
-
-    getTitle()
-    {
-        return this._tittle;
+    private _index: number = 0;
+    
+    constructor() {
+        // inicializar com 3 blocos por padrão
+        const time1 = new TimeBlock({ type: BlockType.FOCUS, time: { hours: 0, minutes: 25, seconds: 0 } });
+        const time2 = new TimeBlock({ type: BlockType.BREAK, time: { hours: 0, minutes: 5, seconds: 0 } });
+        const time3 = new TimeBlock({ type: BlockType.FOCUS, time: { hours: 0, minutes: 25, seconds: 0 } });
+        this._blockList = [ time1, time2, time3 ];
     }
 
+    getCurrentBlock() {
+        return this._blockList[ this._index ];
+    }
+    getPreviousBlock() {
+        return this._blockList[ --this._index ];
+    }
+    getNextBlock() {
+        return this._blockList[++this._index];
+    }
 
+    getBlockList() {
+        return this._blockList;
+    }
+    
 }

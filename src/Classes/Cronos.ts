@@ -1,139 +1,96 @@
-// Cronos is the engine, the proxie between the user and the time blocks
+// features:
+// -- Iniciar, pausar, reiniciar *bloco* atual
+// -- Avançar e retomar blocos
+// -- selecionar um bloco para ser o atual
 
-import States from "../Enums/States";
+import { CronState } from "../Types/BlockTypes";
+import CronRenderer from "./CronRenderer";
 import Demeter from "./Demeter";
 import TimeBlock from "./TimeBlock";
 
-// funcionalities:
-// --- play the currentTimeBlock
-// --- stop the currentTimeBlock
-// --- reset the currentTimeBlock
-
-// --- play the next timeBlock
-
-// properties:
-// --- the current Demeter
-// --- the current TimeBlock
-
+// propriedades:
+// -- Pomodoro atual, contendo a lista de blocos
+// -- bloco atual
+// -- estado do bloco atual
 
 export default class Cronos
 {
-    public _curDemeter: Demeter | undefined;
-    public _curBlock: TimeBlock | undefined;
-    public _interval: number | undefined;
+    private _currentDemeter: Demeter | null = null;
+    private _currentBlock: TimeBlock | null = null;                         // A copy of the Demeter current block
+    private _currentState: CronState | null = null;       // Running, Paused, Finished;
 
-    constructor()
-    {
-        this.InitRenderer();
+    private _blockInterval: number | null = null;
+
+    private _renderer: CronRenderer;
+
+    constructor(renderer: CronRenderer) {
+        this._renderer = renderer;
     }
 
-    playCurrent()
-    {
-        if (this._curBlock?.getState() === States.RUNNING)
-        {
-            console.log("already running");
-            return;
-        };
-        console.log("start");
-        this._curBlock?.setState(States.RUNNING);
-        this.renderCurrentBlock();
-        this._interval = setInterval(() =>
-        {
-            if (this._curBlock?.getState() === States.PAUSED || this._curBlock?.getState() === States.FINISHED)
-            {
-                clearInterval(this._interval);
-                return;
-            }
+    runCurrentBlock() {
+        if (this._currentDemeter === null) throw new Error("There is no Demeter available");
+
+        console.log("Cronos setted to run!");
+        
+        //this._blockInterval = setInterval(() =>
+        //{
+        //    if (this._currentState === CronState.PAUSED)
+        //    {   
+        //        if (this._blockInterval === null) return;
+        //        clearInterval(this._blockInterval);
+        //        return;
+        //    }
+
+        //    if (this._currentState === CronState.FINISHED) {
+        //        if (this._blockInterval === null) return;
+        //        clearInterval(this._blockInterval);
+        //        this.advanceBlock();
+        //        this.runCurrentBlock();
+        //        return;
+        //    }
             
-            this._curBlock?.burn();
-            this.renderCurrentBlock();
-        }, 1000);
-        
-    }
-    stopCurrent()
-    {
-        if (this._curBlock?.getState() === States.PAUSED)
-        {
-            console.log("already paused");
-            return;
-        };
-        this._curBlock?.setState(States.PAUSED);
-        clearInterval(this._interval);
-        console.log("Paused")
-        this.renderCurrentBlock();
-    }
-    resetCurrent()
-    {
-        if (this._curBlock?.getState() === States.RUNNING)
-        {
-            console.log("pause before reset");
-            return;
-        };
-        this._curBlock?.setCurrentTime(this._curBlock.getSettings());
-        console.log("Reset");
-        this.renderCurrentBlock();
-    }
+            //this.burnCurrentBlock();
+            //this._renderer.renderBlockTime(this._currentBlock.Time); --> will render the time continuously
 
-    setCurrentBlock(timeblock: TimeBlock)
-    {
-        this._curBlock = timeblock;
-        this.renderCurrentBlock();
-    }
-    getCurrentBlock()
-    {
-        return this._curBlock;
-    }
-
-    setCurrentDem(deme: Demeter)
-    {
-        this._curDemeter = deme;
-    }
-
-    InitRenderer()
-    {
-        if (this._curDemeter === undefined) return;
-
-        const startBtn = document.querySelector("#start");
-        const pauseBtn = document.querySelector("#pause");
-        const resetBtn = document.querySelector("#reset");
-
-        const demTitle = document.querySelector('dem-title') as HTMLElement;
-        demTitle.innerHTML = this._curDemeter.getTitle() as string;    
-
-        startBtn?.addEventListener('click', () =>
-        {
-            this.playCurrent();
-        });
-        pauseBtn?.addEventListener('click', () =>
-        {
-            this.stopCurrent();
-        });
-        resetBtn?.addEventListener('click', () =>
-        {
-            this.resetCurrent();
-        });
-    }
-
-    renderCurrentBlock()
-    {
-        if (this._curBlock === undefined) return;
-        const wrapper = document.querySelector(".timer-wrapper") as HTMLElement;
-        const Hel = document.querySelector("#hours") as HTMLElement;
-        const Mel = document.querySelector("#minutes") as HTMLElement;
-        const Sel = document.querySelector("#seconds") as HTMLElement;
-        const { hours, minutes, seconds } = this._curBlock.getCurrentTime();
-        
-        if (this._curBlock.getState() === States.PAUSED || this._curBlock.getState() === States.FINISHED)
-        {
-            wrapper.classList.add("opacity-50");
-        } else {
-           wrapper.classList.remove("opacity-50"); 
-        }
-
+        //}, 1000);
+    };
     
-        Hel.innerHTML = hours > 10 ? String(hours) : "0" + String(hours);
-        Mel.innerHTML = minutes > 10 ? String(minutes) : "0" + String(minutes);
-        Sel.innerHTML = seconds > 10 ? String(seconds) : "0" + String(seconds);
+    resetCurrentBlock() {
+        if (this._currentDemeter === null) throw new Error("Nao há nenhum Demeter selecionado");
+        if (this._currentBlock === null) throw new Error("Demeter atual está vazio");
+    
+        this._currentBlock._config.time = this._currentDemeter.getCurrentBlock()._config.time;
+    }
+    
+    setCurrentBlock(block: TimeBlock) {
+        this._currentState = CronState.PAUSED;
+        this._currentBlock = {...block};
+        //this._renderer.renderBlockConfig(this._currentBlock); --> will render the title and the time;
+    };
 
+    backBlock(){
+        if (this._currentDemeter === null) throw new Error("Nao há nenhum Demeter selecionado");
+        this.setCurrentBlock(this._currentDemeter.getPreviousBlock());
+    };
+    advanceBlock() {
+        if (this._currentDemeter === null) throw new Error("Nao há nenhum Demeter selecionado");
+        this.setCurrentBlock(this._currentDemeter.getNextBlock());
+    };
+
+    setDemeter(demeter: Demeter) {
+        this._currentDemeter = demeter;
+        this.setCurrentBlock(this._currentDemeter.getCurrentBlock());
+        this._renderer.renderDemeter(this._currentDemeter);
+    }
+
+    getDemeter() {
+        if (this._currentDemeter === null) return null;
+        return this._currentDemeter;
+    }
+
+    removeCurrentDemeter() {
+        if (this._currentDemeter === null) throw new Error("There is no Demeter to remove.");
+        this._currentDemeter === null;
+        this._renderer.renderDemeter(null);
     }
 }
