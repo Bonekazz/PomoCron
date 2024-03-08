@@ -29,17 +29,33 @@ export default class Cronos
 
     runCurrentBlock() {
         if (this._currentDemeter === null) throw new Error("There is no Demeter available");
-
+        if (this._currentState === CronState.RUNNING) {
+            console.log("Block is already running.");
+            return;
+        }
         console.log("Cronos setted to run!");
         
-        //this._blockInterval = setInterval(() =>
-        //{
-        //    if (this._currentState === CronState.PAUSED)
-        //    {   
-        //        if (this._blockInterval === null) return;
-        //        clearInterval(this._blockInterval);
-        //        return;
-        //    }
+        this._currentState = CronState.RUNNING;
+        
+        this._blockInterval = setInterval(() =>
+        {
+            if (this._currentBlock === null) {
+                if (this._blockInterval === null) return;
+                clearInterval(this._blockInterval);
+                throw new Error("There is no block available");
+            }
+            
+            if (this._currentDemeter === null) {
+                if (this._blockInterval === null) return;
+                clearInterval(this._blockInterval);
+                throw new Error("demeter was removed while running");
+            }
+            if (this._currentState === CronState.PAUSED)
+            {   
+                if (this._blockInterval === null) return;
+                clearInterval(this._blockInterval);
+                return;
+            }
 
         //    if (this._currentState === CronState.FINISHED) {
         //        if (this._blockInterval === null) return;
@@ -49,11 +65,33 @@ export default class Cronos
         //        return;
         //    }
             
-            //this.burnCurrentBlock();
-            //this._renderer.renderBlockTime(this._currentBlock.Time); --> will render the time continuously
+            this.burnCurrentBlock();
+            this._renderer.renderBlockTime(this._currentBlock._config.time);
 
-        //}, 1000);
+        }, 1000);
     };
+
+    burnCurrentBlock() {
+        if (this._currentBlock === null) throw new Error("there is no block setted");
+        
+        this._currentBlock._config.time.seconds -= 1;
+        if (this._currentBlock._config.time.seconds <= 0) {
+            this._currentBlock._config.time.seconds = 59;
+            this._currentBlock._config.time.minutes -= 1;
+        }
+
+        if (this._currentBlock._config.time.minutes === 0 && this._currentBlock._config.time.seconds === 0) {
+            this._currentBlock._config.time.hours -= 1;
+            this._currentBlock._config.time.minutes = 59;
+            this._currentBlock._config.time.seconds = 59;
+        }
+
+        if (this._currentBlock._config.time.hours === 0 && this._currentBlock._config.time.minutes === 0 && this._currentBlock._config.time.seconds === 0) {
+            this._currentState = CronState.FINISHED;
+        }
+        
+        console.log(this._currentBlock._config.time.hours, this._currentBlock._config.time.minutes, this._currentBlock._config.time.seconds);
+    }
     
     resetCurrentBlock() {
         if (this._currentDemeter === null) throw new Error("Nao há nenhum Demeter selecionado");
@@ -90,6 +128,7 @@ export default class Cronos
 
     removeCurrentDemeter() {
         if (this._currentDemeter === null) throw new Error("There is no Demeter to remove.");
+        //this._currentState = CronState.PAUSED;
         this._currentDemeter = null;
         this._renderer.renderDemeter(null);
     }

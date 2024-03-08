@@ -1,5 +1,7 @@
+import { ITime } from "../Types/BlockTypes";
 import Cronos from "./Cronos";
 import Demeter from "./Demeter";
+import TimeBlock from "./TimeBlock";
 
 export default class CronRenderer {
     private _timeElement: HTMLElement | null;
@@ -30,7 +32,15 @@ export default class CronRenderer {
         this._timeButton.addEventListener("click", () => {
             this._cronos?.runCurrentBlock();
         });
-    }    
+    }
+    
+    renderBlockTime(blocktime: ITime) {
+        if (this._timeElement === null) throw new Error("Element with 'time-element' id cannot be found");
+        const { hours, minutes, seconds } = blocktime;
+        const altHours = hours === 0 ? "" : `${hours < 10 ? `0${hours}` : hours} : `;
+        this._timeElement.innerHTML = `${altHours}${minutes < 10 ? `0${minutes}` : minutes} : ${seconds < 10 ? `0${seconds}` : seconds}`;
+        console.log("rendering time in html");
+    }
 
     renderDemeter(demeter: Demeter | null) {
         if (this._timeElement === null) throw new Error("Element with 'time-element' id cannot be found");
@@ -64,9 +74,9 @@ export default class CronRenderer {
 
             const { hours, minutes, seconds } = block._config.time;
             const type = block._config.type;
-            
+            const DemListaltHours = hours === 0 ? "" : `${hours < 10 ? `0${hours}` : hours} : `;
             this._demListElement.innerHTML += `
-                <li>${hours} : ${minutes} : ${seconds} - ${type}</li>
+                <li>${DemListaltHours}${minutes < 10? `0${minutes}` : minutes} : ${seconds < 10? `0${seconds}` : seconds} - ${type}</li>
             `;
         });
     }
