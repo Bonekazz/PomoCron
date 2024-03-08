@@ -90,7 +90,7 @@ export default class Cronos
 
     removeCurrentDemeter() {
         if (this._currentDemeter === null) throw new Error("There is no Demeter to remove.");
-        this._currentDemeter === null;
+        this._currentDemeter = null;
         this._renderer.renderDemeter(null);
     }
 }

@@ -6,6 +6,13 @@ import TimeBlock from "./TimeBlock";
 // features:
 // -- retornar o proximo bloco
 // -- trocar a ordem dos blocos
+// -- adicionar/remover blocos
+// -- editar blocos;
+
+
+// Pre-conditions:
+// -- demeter não pode estar vazio
+// -- demeter não aceita blocos totalmente vazios ou com valores negativos
 
 export default class Demeter {
 

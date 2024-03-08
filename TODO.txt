@@ -1,3 +1,3 @@
 ## TODO
 
-[ ] - fix bug: start button running even with no demeter;
+[fixed] - fix bug: start button running even with no demeter;
