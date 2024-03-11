@@ -22,20 +22,27 @@ export default class Demeter {
     
     constructor() {
         // inicializar com 3 blocos por padrão
-        const time1 = new TimeBlock({ type: BlockType.FOCUS, time: { hours: 0, minutes: 25, seconds: 0 } });
-        const time2 = new TimeBlock({ type: BlockType.BREAK, time: { hours: 0, minutes: 5, seconds: 0 } });
-        const time3 = new TimeBlock({ type: BlockType.FOCUS, time: { hours: 0, minutes: 25, seconds: 0 } });
+        const time1 = new TimeBlock({ type: BlockType.FOCUS, time: { hours: 0, minutes: 0, seconds: 1 } });
+        const time2 = new TimeBlock({ type: BlockType.BREAK, time: { hours: 0, minutes: 0, seconds: 2 } });
+        const time3 = new TimeBlock({ type: BlockType.FOCUS, time: { hours: 0, minutes: 0, seconds: 3 } });
         this._blockList = [ time1, time2, time3 ];
     }
 
     getCurrentBlock() {
+        console.log(`index atual: ${this._index}`);
         return this._blockList[ this._index ];
     }
     getPreviousBlock() {
         return this._blockList[ --this._index ];
     }
     getNextBlock() {
-        return this._blockList[++this._index];
+        this._index++;
+        if (this._index === this._blockList.length) {
+            this._index = this._blockList.length - 1;
+            return null;
+        }
+        console.log(`index incrementado para: ${this._index}`);
+        return this._blockList[this._index];
     }
 
     getBlockList() {
