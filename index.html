@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="src/Styles/index.css">
     <script type="module" defer src="/src/main.ts"></script>
   </head>
-  <body>
+  <body class="flex flex-col items-center">
 
     <!--
       width and height = cx and cy * 2
@@ -18,17 +18,35 @@
       </svg>
     -->
     
+    <!-- line progress
+      <div>
+        <div>
+          <span></span>
+        </div>
+      </div>
+    -->
+
+    <i data-lucide="menu"></i>
     
-    <div>
-      <span id="time-element" class="opacity-50"></span>
+    <div class="flex flex-col gap-5 items-center mt-10">
+      <div class="flex flex-col items-center gap-5">
+        <span id="time-element" class="opacity-50"></span>
+        <div class="w-[200px] h-[8px] bg-black/10 rounded-lg">
+          <span id="time-progress" class="h-full bg-black block rounded-lg transition-all ease-in-out"></span>
+        </div>
+      </div>
+      <div>
+        <button id="start-btn" class="border-2 border-black p-2 rounded-lg opacity-50">Start</button>
+        <button id="pause-btn" class="border-2 border-black p-2 rounded-lg opacity-50">Pause</button>
+        <button id="reset-btn" class="border-2 border-black p-2 rounded-lg opacity-50">Reset</button>
+      </div>
     </div>
-    <div>
-      <button id="time-btn" class="border-2 border-black p-2 rounded-lg opacity-50">Start</button>
-      <button id="add-demeter" class="border-2 border-black">add random demeter</button>
-      <button id="remove-demeter" class="border-2 border-black">remover demeter</button>
-    </div>
-    <div>
-      <ul id="dem-list">
+    <div class="flex flex-col items-center mt-10 border rounded w-fit p-5 gap-5">
+      <div>
+        <button id="add-demeter" class="border-2 border-black">add random demeter</button>
+        <button id="remove-demeter" class="border-2 border-black">remover demeter</button>
+      </div>
+      <ul id="dem-list" class="flex flex-col gap-2 w-full">
       </ul>
     </div>
   </body>
