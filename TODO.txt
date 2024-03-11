@@ -1,3 +1,23 @@
 ## TODO
 
+# --- FIXES
+
 [fixed] - fix bug: start button running even with no demeter;
+[x] - fix double rendering at end of block;
+[x] - fix double calls to getCurrentBlock in Demeter;
+
+
+
+# --- FEATURES
+
+[x] - pause button
+[x] - reset button
+[x] - make progress bar sync cronos and demeter
+[x] - render reset action
+[x] - run next block
+
+
+# --- UX
+
+[] - Demeter List
+[] - Demeter List config modal
