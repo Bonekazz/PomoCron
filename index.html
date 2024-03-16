@@ -9,6 +9,17 @@
   </head>
   <body class="flex flex-col items-center">
 
+    <div id="div-block-modal" class="w-full h-full absolute justify-center items-center hidden">
+      <span id="modal-bg" class="bg-black/30 w-full h-full absolute cursor-pointer"></span>
+      <div id="block-modal" class="bg-white p-5 shadow-md w-fit relative" data-index="null">
+        <h1 id="modal-block-index">modal</h1>
+      </div>
+    </div>
+
+    <button id="menu-side-bar">
+      <i data-lucide="menu" stroke-width="3" color="#CBCBCB" class="top-menu-btn w-[35px] h-[35px] absolute left-[48px] top-[41px]"></i>
+    </button>
+
     <!--
       width and height = cx and cy * 2
       r = cx annd cy - 10
@@ -26,28 +37,41 @@
       </div>
     -->
 
-    <i data-lucide="menu"></i>
-    
-    <div class="flex flex-col gap-5 items-center mt-10">
-      <div class="flex flex-col items-center gap-5">
-        <span id="time-element" class="opacity-50"></span>
-        <div class="w-[200px] h-[8px] bg-black/10 rounded-lg">
-          <span id="time-progress" class="h-full bg-black block rounded-lg transition-all ease-in-out"></span>
+    <main class="flex flex-col gap-[92px]">
+      <div class="flex flex-col gap-5 items-center mt-[258px]">
+        <div class="flex flex-col items-center gap-5">
+          <span id="time-element" class="opacity-50 text-[40px]"></span>
+          <div class="w-[200px] h-[8px] bg-black/10 rounded-lg">
+            <span id="time-progress" class="h-full bg-black block rounded-lg transition-all ease-in-out"></span>
+          </div>
+        </div>
+        <div>
+          <button id="start-btn" class="block-component border-2 border-black p-2 rounded-lg opacity-50">Start</button>
+          <button id="pause-btn" class="block-component border-2 border-black p-2 rounded-lg opacity-50">Pause</button>
+          <button id="reset-btn" class="block-component border-2 border-black p-2 rounded-lg opacity-50">Reset</button>
         </div>
       </div>
-      <div>
-        <button id="start-btn" class="border-2 border-black p-2 rounded-lg opacity-50">Start</button>
-        <button id="pause-btn" class="border-2 border-black p-2 rounded-lg opacity-50">Pause</button>
-        <button id="reset-btn" class="border-2 border-black p-2 rounded-lg opacity-50">Reset</button>
+      <div id="div-dem-list" class="flex flex-col items-center mt-10 border border-black rounded-[33px] w-fit p-8 gap-8">
+        <div class="flex w-full justify-between">
+          <div class="icon">
+            <i data-lucide="eye" color="#CBCBCB" class="w-[35px] h-[35px]"></i>
+          </div>
+          <span class="text-[24px]">Pomodor Title</span>
+          <div class="icon">
+            <i data-lucide="ellipsis" color="#CBCBCB" class="w-[35px] h-[35px]"></i>
+          </div>
+        </div>
+        <div class="hidden">
+          <button id="add-demeter" class="border-2 border-black">add random demeter</button>
+          <button id="remove-demeter" class="border-2 border-black">remover demeter</button>
+        </div>
+        <ul id="dem-list" class="flex flex-col gap-[15px] w-full mb-10">
+        </ul>
+        <div id="add-block-element" class="block-component w-[512px] h-[53px] border-[2px] border-black opacity-20 rounded-[20px] flex justify-center items-center text-[20px]">
+          <span>Adicionar Bloco</span>
+          <i data-lucide="plus" stroke-width="3"></i>
+        </div>
       </div>
-    </div>
-    <div class="flex flex-col items-center mt-10 border rounded w-fit p-5 gap-5">
-      <div>
-        <button id="add-demeter" class="border-2 border-black">add random demeter</button>
-        <button id="remove-demeter" class="border-2 border-black">remover demeter</button>
-      </div>
-      <ul id="dem-list" class="flex flex-col gap-2 w-full">
-      </ul>
-    </div>
+    </main>
   </body>
 </html>
