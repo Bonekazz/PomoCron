@@ -3,9 +3,19 @@
 # --- FIXES
 
 [fixed] - fix bug: start button running even with no demeter;
-[x] - fix double rendering at end of block;
-[x] - fix double calls to getCurrentBlock in Demeter;
+[fixed] - fix double rendering at end of block;
+[fixed] - fix double calls to getCurrentBlock in Demeter;
+[     ] - fix last block not reseting;
+[     ] - fix progress bar bug when reset;
+[     ] - fix editing or adding a new block with negative values;
 
+    # ux ---
+    [] - timeBlock spaced items
+    [] - ellipsis icon disappearing when add a new block
+
+
+# --- CODE
+[ ] - classes for others renderers? (menu side bar, app pages [inicio, pomodors])
 
 
 # --- FEATURES
@@ -16,8 +26,18 @@
 [x] - render reset action
 [x] - run next block
 
+[ ] - loop mode (restart and run the Demeter when finished)
+
+    # aditional features
+        () adicionar tasks em blocos
+        () habit tracker?
+        () modo streamer (janela de pomodoro com fundo verde, talvez no app p desktop)
+
+
 
 # --- UX
 
 [] - Demeter List
 [] - Demeter List config modal
+[] - menu side bar
+[] - focus/break theme
