@@ -1,6 +1,11 @@
 # PomoCron
-  A full customizable pomodor
+  - A full customizable pomodor
+
+    
 ---
+
+
+
 ## UX
   - figma: https://www.figma.com/file/z8aub5Oul7TgGNyLSiCwUc/Pomodoro?type=design&node-id=0%3A1&mode=design&t=K3RpYor4vd3PCUxu-1
   - 
