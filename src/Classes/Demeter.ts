@@ -1,6 +1,6 @@
 // A TimeBlock Buffer
 
-import { BlockType } from "../Types/BlockTypes";
+import { BlockType, ITime, ITimeBlock } from "../Types/BlockTypes";
 import TimeBlock from "./TimeBlock";
 
 // features:
@@ -22,10 +22,11 @@ export default class Demeter {
     
     constructor() {
         // inicializar com 3 blocos por padrão
-        const time1 = new TimeBlock({ type: BlockType.FOCUS, time: { hours: 0, minutes: 0, seconds: 1 } });
-        const time2 = new TimeBlock({ type: BlockType.BREAK, time: { hours: 0, minutes: 0, seconds: 2 } });
-        const time3 = new TimeBlock({ type: BlockType.FOCUS, time: { hours: 0, minutes: 0, seconds: 3 } });
-        this._blockList = [ time1, time2, time3 ];
+        const time1 = new TimeBlock({ type: BlockType.FOCUS, time: { hours: 0, minutes: 0, seconds: 1 }, index: 0});
+        const time2 = new TimeBlock({ type: BlockType.BREAK, time: { hours: 0, minutes: 0, seconds: 2 }, index: 1});
+        const time3 = new TimeBlock({ type: BlockType.FOCUS, time: { hours: 0, minutes: 0, seconds: 3 }, index: 2});
+        const time4 = new TimeBlock({ type: BlockType.BREAK, time: { hours: 0, minutes: 0, seconds: 2 }, index: 3});
+        this._blockList = [ time1, time2, time3, time4 ];
     }
 
     getCurrentBlock() {
@@ -48,5 +49,17 @@ export default class Demeter {
     getBlockList() {
         return this._blockList;
     }
+    getBlock(index: number) {
+        return this._blockList[ index ];
+    }
+
+    addBlock(block: TimeBlock) {
+        block._config.index = this._blockList.length;
+        this._blockList.push(block);
+        console.log(this._blockList as {});
+        
+    }
+    removeBlock(index: number) { }
+    editBlock(index: number, time: ITime) { }
     
 }
