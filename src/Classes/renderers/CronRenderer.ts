@@ -1,6 +1,7 @@
-import { ITime } from "../Types/BlockTypes";
-import Cronos from "./Cronos";
-import Demeter from "./Demeter";
+import { ITime } from "../../Types/BlockTypes";
+import Cronos from "../Cronos";
+import Demeter from "../Demeter";
+import BlockModalRenderer from "./BlockModalRenderer";
 
 export default class CronRenderer {
     private _timeElement: HTMLElement | null;
@@ -14,7 +15,11 @@ export default class CronRenderer {
 
     private _cronos: Cronos | null = null;
 
-    constructor() {
+    private _blockModalRenderer: BlockModalRenderer| null = null;
+
+    private isMenuopen: boolean = false;
+
+    constructor(modalRenderer: BlockModalRenderer) {
         this._timeElement = document.getElementById("time-element") as HTMLElement;
 
         this._startButton = document.getElementById("start-btn") as HTMLElement;
@@ -23,6 +28,11 @@ export default class CronRenderer {
 
         this._demListElement = document.getElementById("dem-list") as HTMLElement;
         this._progressElement = document.getElementById("time-progress") as HTMLElement;
+
+        this._blockModalRenderer = modalRenderer;
+        this._blockModalRenderer.setCronRenderer(this);
+
+        this.initMenuSideBar();
     }
 
     init() {
@@ -69,14 +79,11 @@ export default class CronRenderer {
         const timeProgress = 100 - (((defaultTime - currentTime) / defaultTime) * 100);
 
         this._progressElement.style.width = `${timeProgress}%`;
-        console.log(`currentTime = ${currentTime} ---- defaultTime = ${defaultTime}`);
-        console.log(`PROGRESS-BAR -> ${timeProgress}%`);
+        //console.log(`currentTime = ${currentTime} ---- defaultTime = ${defaultTime}`);
+        //console.log(`PROGRESS-BAR -> ${timeProgress}%`);
         
     }
 
-    renderBlockConfig() {
-
-    }
 
     renderDemeter(demeter: Demeter | null) {
         if (this._timeElement === null) throw new Error("Element with 'time-element' id cannot be found");
@@ -85,6 +92,8 @@ export default class CronRenderer {
         if (this._resetButton === null) throw new Error("Element with 'reset-btn' id cannot be found");
         if (this._progressElement === null) throw new Error("Progress bar element cannot be found");
         if (this._demListElement === null) throw new Error("Element with 'dem-list' id cannot be found");
+
+        if (this._cronos === null) throw new Error("there is no Cronos setted");
 
         if (demeter === null) {
             this._timeElement.innerHTML = "00 : 00 : 00";
@@ -119,17 +128,56 @@ export default class CronRenderer {
 
             const { hours, minutes, seconds } = block._config.time;
             const type = block._config.type;
+            const index = block._config.index;
             const DemListaltHours = hours === 0 ? "" : `${hours < 10 ? `0${hours}` : hours} : `;
             this._demListElement.innerHTML += `
-                <li class="border border-black p-1 w-full rounded-lg text-center ${type === "Focus" ? "bg-black text-white" : "bg-white"}">
-                ${DemListaltHours}${minutes < 10 ? `0${minutes}` : minutes} : ${seconds < 10 ? `0${seconds}` : seconds} - ${type}</li>
+                <button id="demeter-block-element" data-index="${index}" class="block-component px-[21.81px] flex justify-between items-center rounded-[22px] text-[20px] w-[512px] h-[53px] ${type === "Focus" ? "focus-type" : "break-type"}">
+                    <span class="w-[25px]"></span>
+                    <span>${DemListaltHours}${minutes < 10 ? `0${minutes}` : minutes} : ${seconds < 10 ? `0${seconds}` : seconds} - ${type}</span>
+                    <i data-lucide="ellipsis" class="justify-self-end"></i>
+                </button>
             `;
         });
+
+        (document.getElementById("add-block-element") as HTMLElement).addEventListener("click", () => {
+            this._blockModalRenderer?.openAddBlock();
+        });
+
+        // ----------- add block modal listeners
+        this._blockModalRenderer?.setDemeter(this._cronos.getDemeter());
+        document.querySelectorAll("#demeter-block-element").forEach(block => {
+            block.addEventListener("click", (event) => {
+                const blockIndex = Number((event.currentTarget as HTMLElement).dataset.index);
+                if (blockIndex === undefined) throw new Error("value returned was undefined");
+                console.log((event.currentTarget as HTMLElement).dataset.index);
+                // open the block modal
+                this._blockModalRenderer?.openMenu(blockIndex);
+            });
+        });
+
     }
 
     setCronos(cronos: Cronos) {
         this._cronos = cronos;
         this.init();
     }
+
+    initMenuSideBar() {
+        // CRIAR UMA CLASSE PARA O MENU SIDE BAR???
+
+        const menuSideBarElement = document.getElementById("menu-side-bar");
+
+        menuSideBarElement?.addEventListener("click", () => {
+            if (this.isMenuopen) {
+                this.isMenuopen = false;
+                console.log("fechando menu..");
+                return;
+            }
+
+            this.isMenuopen = true;
+            console.log("abrindo menu..");
+        });
+    }
+
     
 }
