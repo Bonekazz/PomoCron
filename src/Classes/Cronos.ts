@@ -4,7 +4,7 @@
 // -- selecionar um bloco para ser o atual
 
 import { CronState, ITime } from "../Types/BlockTypes";
-import CronRenderer from "./CronRenderer";
+import CronRenderer from "./renderers/CronRenderer";
 import Demeter from "./Demeter";
 import TimeBlock from "./TimeBlock";
 

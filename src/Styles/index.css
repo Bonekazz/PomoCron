@@ -12,6 +12,19 @@
         @apply bg-black border border-white text-white;
     }
     .break-type {
-        @apply bg-white border border-black/70 text-black;
+        @apply bg-[#EBEBEB] border border-black/50 text-black;
+    }
+    .icon {
+        @apply cursor-pointer active:scale-[0.90] transition-all ease-in-out;
+    }
+    .add-block-btn {
+        @apply cursor-pointer active:scale-95 transition-all ease-in-out;
+    }
+    .block-component {
+        @apply cursor-pointer active:scale-95 transition-all ease-in-out;
+    }
+
+    .top-menu-btn {
+        @apply cursor-pointer active:scale-[0.90] transition-all ease-in-out;
     }
 }
