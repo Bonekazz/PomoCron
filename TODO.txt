@@ -8,6 +8,7 @@
 [     ] - fix last block not reseting;
 [     ] - fix progress bar bug when reset;
 [     ] - fix editing or adding a new block with negative values;
+[fixed] - editing a block does not change the original CURRENT one;
 
     # ux ---
     [] - timeBlock spaced items
@@ -26,12 +27,18 @@
 [x] - render reset action
 [x] - run next block
 
+[ ] - Block CRUD
+    (x) - add
+    (x) - edit
+    ( ) - delete
+
 [ ] - loop mode (restart and run the Demeter when finished)
 
     # aditional features
         () adicionar tasks em blocos
         () habit tracker?
         () modo streamer (janela de pomodoro com fundo verde, talvez no app p desktop)
+        () sobreposição em tela (desktop)
 
 
 

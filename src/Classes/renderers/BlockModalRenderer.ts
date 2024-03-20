@@ -7,7 +7,8 @@ export default class BlockModalRenderer {
     private _demeter: Demeter | null = null;
     private _cronRenderer: CronRenderer | null = null;
     
-    constructor() {
+    constructor(cronrenderer: CronRenderer) {
+        this._cronRenderer = cronrenderer;
         this.init();
     }
 
@@ -39,6 +40,7 @@ export default class BlockModalRenderer {
         document.getElementById("modal-bg")?.addEventListener("click", () => {
             this.close();
         });
+
     }
 
     setDemeter(demeter: Demeter | null) {
@@ -98,7 +100,17 @@ export default class BlockModalRenderer {
 
             if (hours === 0 && minutes === 0 && seconds === 0) throw new Error("cannot add an empty block");
             if (this._demeter === null) throw new Error("demeter not defined");
-            this._demeter.getBlockList()[ index ] = new TimeBlock({type: type, time: { hours: hours, minutes: minutes, seconds: seconds }, index: index});
+
+            let editBlock = this._demeter.getBlockList()[ index ];
+            const newBlock = new TimeBlock({ type: type, time: { hours: hours, minutes: minutes, seconds: seconds }, index: index });
+            
+            
+            if (editBlock._config.index === this._cronRenderer?.getCronos()?.getCurrentBlock()?._config.index) {
+                this._cronRenderer.getCronos()?.setCurrentBlock(JSON.parse((JSON.stringify(newBlock))));
+            }
+            this._demeter.getBlockList()[ index ] = newBlock;
+            console.log(this._cronRenderer?.getCronos()?.getDemeter()?.getBlockList());
+
             //render
             this._cronRenderer?.renderDemeter(this._demeter);
 
@@ -139,7 +151,4 @@ export default class BlockModalRenderer {
         });
     }
 
-    setCronRenderer(renderer: CronRenderer) {
-        this._cronRenderer = renderer;
-    }
 }

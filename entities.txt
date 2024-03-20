@@ -1,0 +1,4 @@
+## Entities
+    
+    > Cronos -> imutable
+    > Demter -> mutable

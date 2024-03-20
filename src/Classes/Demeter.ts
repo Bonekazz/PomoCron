@@ -60,6 +60,9 @@ export default class Demeter {
         
     }
     removeBlock(index: number) { }
-    editBlock(index: number, time: ITime) { }
+
+    editBlock(index: number, block: TimeBlock) {
+        this._blockList[ index ] = block;
+    }
     
 }

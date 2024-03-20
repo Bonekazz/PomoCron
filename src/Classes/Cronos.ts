@@ -24,8 +24,8 @@ export default class Cronos
 
     private _renderer: CronRenderer;
 
-    constructor(renderer: CronRenderer) {
-        this._renderer = renderer;
+    constructor() {
+        this._renderer = new CronRenderer(this);
     }
 
     runCurrentBlock() {
@@ -132,6 +132,7 @@ export default class Cronos
         if (this._currentDemeter === null) throw new Error("Nao há nenhum Demeter selecionado");
         this.setCurrentBlock(JSON.parse(JSON.stringify(this._currentDemeter.getPreviousBlock())));
     };
+
     advanceBlock() {
         // what if there is no next block?
         if (this._currentDemeter === null) throw new Error("Nao há nenhum Demeter selecionado");
@@ -151,10 +152,18 @@ export default class Cronos
         return this._currentDemeter;
     }
 
+    updateDemeter() {
+        
+    }
+
     removeCurrentDemeter() {
         if (this._currentDemeter === null) throw new Error("There is no Demeter to remove.");
         //this._currentState = CronState.PAUSED;
         this._currentDemeter = null;
         this._renderer.renderDemeter(null);
+    }
+
+    getCurrentBlock() {
+        return this._currentBlock;
     }
 }

@@ -19,7 +19,7 @@ export default class CronRenderer {
 
     private isMenuopen: boolean = false;
 
-    constructor(modalRenderer: BlockModalRenderer) {
+    constructor(cronos: Cronos) {
         this._timeElement = document.getElementById("time-element") as HTMLElement;
 
         this._startButton = document.getElementById("start-btn") as HTMLElement;
@@ -29,8 +29,10 @@ export default class CronRenderer {
         this._demListElement = document.getElementById("dem-list") as HTMLElement;
         this._progressElement = document.getElementById("time-progress") as HTMLElement;
 
-        this._blockModalRenderer = modalRenderer;
-        this._blockModalRenderer.setCronRenderer(this);
+        this._blockModalRenderer = new BlockModalRenderer(this);
+
+        this._cronos = cronos;
+        this.init();
 
         this.initMenuSideBar();
     }
@@ -145,6 +147,7 @@ export default class CronRenderer {
 
         // ----------- add block modal listeners
         this._blockModalRenderer?.setDemeter(this._cronos.getDemeter());
+        
         document.querySelectorAll("#demeter-block-element").forEach(block => {
             block.addEventListener("click", (event) => {
                 const blockIndex = Number((event.currentTarget as HTMLElement).dataset.index);
@@ -155,11 +158,6 @@ export default class CronRenderer {
             });
         });
 
-    }
-
-    setCronos(cronos: Cronos) {
-        this._cronos = cronos;
-        this.init();
     }
 
     initMenuSideBar() {
@@ -177,6 +175,10 @@ export default class CronRenderer {
             this.isMenuopen = true;
             console.log("abrindo menu..");
         });
+    }
+
+    getCronos() {
+        return this._cronos;
     }
 
     
